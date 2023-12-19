@@ -56,7 +56,7 @@ public class UserController {
     // ModelAndView mav = new ModelAndView();
     // mav.setViewName("loginForm2");
     // return mav;
-    return new ModelAndView(); // WEB-INF/views/user/loginForm2.jsp 를 찾는다.... ?  -> 따로 이름을 안주면 메소드 이름이 화면 이름이다.
+    return new ModelAndView(); // WEB-INF/views/user/loginForm2.jsp 를 찾는다 -> 
   }
 
 }
