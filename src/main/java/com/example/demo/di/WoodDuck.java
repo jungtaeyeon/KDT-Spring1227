@@ -2,8 +2,8 @@ package com.example.demo.di;
 
 public class WoodDuck extends Duck {
 	WoodDuck(){
-		flybeavior = new FlyNoWay();
-		quackbehavior = new MuteQuack();
+		flyBehavior = new FlyNoWay();
+		quackBehavior = new MuteQuack();
 	}
 	@Override
 	public void display() {

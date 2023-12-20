@@ -12,15 +12,19 @@ import java.util.Properties;
 //추상클래스의 구현체일 땐 extends 사용
 //인터페이스의 구현체일 땐 implements 사용
 public abstract class Duck {
-	FlyBehavior flybeavior = null;
-	QuackBehavior quackbehavior = null;
-	public Duck() {}
+	FlyBehavior flyBehavior = null;
+	QuackBehavior quackBehavior = null;
+  // 추클래스에 정의된 생성자가 직접 호출되는 구조가 아니라 
+  // 자손 클래스가 호출될 때 부모 생성자를 먼저 호출한다. -> 그래야 전역변수 초기화가 된다.
+  // 메소드 오버라이딩 규칙을 적용할 수 있다. - 언제?? 컴파일 타입에.
+  // Duck myDuck = new MallardDuck();
+	public Duck() {} 
 		public abstract void display();
 		public void performFly() {
-			flybeavior.fly();
+			flyBehavior.fly();
 		}
 		public void performFlyQuack() {
-			quackbehavior.quack();
+			quackBehavior.quack();
 		}
 		public void swimming() {
 			System.out.println("모든 오리는 물 위에 뜬다.");

@@ -5,6 +5,9 @@ package com.example.demo.di;
 //List list = new Arraylist();
 //list = new Vector();
 //list = new LinkedList();
+// 이 클래스이름 안에 어디에서도 오리의 느낌이 없다 - 비행기도 사용하고 싶어요., 드론
+// 결합도 낮은 코드를 작성하기 위해서 나는 인터페이스를 먼저 설계하였다.
+// 유연해야 한다. -> 왜냐면 기능이 자꾸 바뀌니까, 다른 요구사항이 자꾸 생기니까 -> 확장성
 public class FlyWithWings implements FlyBehavior {
 
 	@Override

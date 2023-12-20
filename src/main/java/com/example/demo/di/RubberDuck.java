@@ -9,7 +9,7 @@ public class RubberDuck extends Duck {
 	public RubberDuck() {
 		//날고 있어요 - FlyWithWings.java > implements FlyBehavior
 		//날 수 없어요 - FlyNoWay.java > implements FlyBehavior
-		flybeavior = new FlyNoWay(); // FlyBehavior의 구현체 클래스로 결정할 수 있음
+		flyBehavior = new FlyNoWay(); // FlyBehavior의 구현체 클래스로 결정할 수 있음
 	}
 
 	@Override
