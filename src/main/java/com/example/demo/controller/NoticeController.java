@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,34 +37,42 @@ public class NoticeController {
   // 전체조회 및 조건 검색일 때
   // SELECT * FROM notice WHERE gubun=? AND keyword=?
   @GetMapping("noticeList")
-  public String noticeList(@RequestParam Map<String, Object> pmap, HttpServletRequest req){ 
-    logger.info(pmap.get("gubun").toString()+", "+ pmap.get("keyword").toString());
-    logger.info(req.getParameter("gubun"));
-    logger.info(pmap.get("keyword").toString());
+  public String noticeList(@RequestParam Map<String, Object> pMap, HttpServletRequest req){ 
     List<Map<String, Object>> list = null;
-    // list = noticeLogic.noticeList(); // 전체조회
-    list = noticeLogic.noticeList(pmap); // 조건검색
+    list = noticeLogic.noticeList(pMap); // 전체조회 및 조건검색
+    req.setAttribute("nList", list);
     return "forward:noticeList.jsp"; // forward: 가 붙어있기 때문에 webapp폴더 아래에서 찾는다.
   }
+  
   // insert into notice(n_no, n_title, n_content, n_writer) valuse(?,?,?,?)
   @GetMapping("noticeInsert")
-  public String noticeInsert(@RequestParam Map<String, Object> pmap){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
-    logger.info(pmap.get("n_title").toString());
-    // return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
-    return "redirect:noticeList.jsp";
+  public String noticeInsert(@RequestParam Map<String, Object> pMap){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
+    logger.info(pMap.get("n_title").toString()+", "+pMap.get("n_content").toString()+", "+pMap.get("n_writer").toString());
+    int result = 0;
+    result = noticeLogic.noticeInsert(pMap);
+    logger.info(Integer.toString(result));
+    return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
+    // return "redirect:noticeList.jsp";
   }
 
   @GetMapping("noticeUpdate")
-  public String noticeUpdate(){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
+  public String noticeUpdate(@RequestParam Map<String, Object> pMap){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
     logger.info("noticeUpdate 호출");
-    // return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
-    return "redirect:noticeList.jsp"; 
+    logger.info(pMap.get("n_title").toString()+", "+pMap.get("n_content").toString()+", "+pMap.get("n_writer").toString());
+    int result = 0;
+    result = noticeLogic.noticeUpdate(pMap);
+    logger.info(Integer.toString(result));
+    return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
+    // return "redirect:noticeList.jsp"; 
   }
   
   @GetMapping("noticeDelete")
-  public String noticeDelete(){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
+  public String noticeDelete(@RequestParam Map<String, Object> pMap){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
     logger.info("noticeDelete 호출");
-    // return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
-    return "redirect:noticeList.jsp";
+    int result = 0;
+    result = noticeLogic.noticeDelete(pMap);
+    logger.info(Integer.toString(result));
+    return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
+    // return "redirect:noticeList.jsp";
   }
 }

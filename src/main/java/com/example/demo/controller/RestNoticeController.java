@@ -24,13 +24,13 @@ public class RestNoticeController {
   // 전체조회 및 조건 검색일 때
   // SELECT * FROM notice WHERE gubun=? AND keyword=?
   @GetMapping("jsonNoticeList")
-   public String noticeList(@RequestParam Map<String, Object> pmap, HttpServletRequest req){ 
-    logger.info(pmap.get("gubun").toString()+", "+ pmap.get("keyword").toString());
+   public String noticeList(@RequestParam Map<String, Object> pMap, HttpServletRequest req){ 
+    logger.info(pMap.get("gubun").toString()+", "+ pMap.get("keyword").toString());
     logger.info(req.getParameter("gubun"));
-    logger.info(pmap.get("keyword").toString());
+    logger.info(pMap.get("keyword").toString());
     List<Map<String, Object>> list = null;
     // list = noticeLogic.noticeList(); // 전체조회
-    list = noticeLogic.noticeList(pmap); // 조건검색
+    list = noticeLogic.noticeList(pMap); // 조건검색
     Gson g = new Gson();
     String temp = g.toJson(list);
     return temp; // forward: 가 붙어있기 때문에 webapp폴더 아래에서 찾는다.

@@ -18,10 +18,11 @@ import org.springframework.context.annotation.PropertySource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-
+// 스프링 부트 스타터에서는 의존관계에 대한 처리 뿐 아니라 의존전이까지도 자동화 하였다.
+// 서버기동 시 스캔함
 @Configuration
 //@PropertySource("classpath:/application.properties")
-@PropertySource("classpath:/application.yml")
+@PropertySource("classpath:/application.yml") // 내려쓰기와 들여쓰기로 반복을 피한다.
 //@MapperScan(basePackages = "com.example.demo.mapper")
 public class DatabaseConfiguration {
 	private static final Logger logger = LogManager.getLogger(DatabaseConfiguration.class);
@@ -37,6 +38,10 @@ public class DatabaseConfiguration {
 		logger.info("datasource : {}", dataSource);
 		return dataSource;
 	}
+	// ApplicationContext는 스프링이 제공하는 컨테이너 이다.
+	// 역할: 여러가지 빈을 관리해준다 -> 객체 라이프사이클 관리해줌
+	// 클래스 이름 앞에 @Autowired를 사용하였다.
+	// DatabaseConfiguration.java
 	@Autowired
 	private ApplicationContext applicationContext;
 
