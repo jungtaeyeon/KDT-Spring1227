@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,21 +38,34 @@ public class NoticeController {
   // 전체조회 및 조건 검색일 때
   // SELECT * FROM notice WHERE gubun=? AND keyword=?
   @GetMapping("noticeList")
-  public String noticeList(@RequestParam Map<String, Object> pMap, HttpServletRequest req){ 
+  public String noticeList(@RequestParam Map<String, Object> pMap, Model model){ 
     List<Map<String, Object>> list = null;
     list = noticeLogic.noticeList(pMap); // 전체조회 및 조건검색
-    req.setAttribute("nList", list);
+    List<Map<String, Object>> list2 = new ArrayList<>();
+    Map<String, Object> map = new HashMap<>();
+    map.put("l_title", "제목1");
+    map.put("l_contetn", "내용1");
+    map.put("l_writer", "작성자1");
+    list2.add(map);
+    model.addAttribute("nList2", list2);
+    model.addAttribute("nList", list);
+    logger.info("nList2: {}", list2.get(0));
     return "forward:noticeList.jsp"; // forward: 가 붙어있기 때문에 webapp폴더 아래에서 찾는다.
-  }
+  } 
   
   // insert into notice(n_no, n_title, n_content, n_writer) valuse(?,?,?,?)
-  @GetMapping("noticeInsert")
+  @PostMapping("noticeInsert")
   public String noticeInsert(@RequestParam Map<String, Object> pMap){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
-    logger.info(pMap.get("n_title").toString()+", "+pMap.get("n_content").toString()+", "+pMap.get("n_writer").toString());
     int result = 0;
+    String path = "";
     result = noticeLogic.noticeInsert(pMap);
+    if (result == 1) { // 입력이 성공했을 때
+      path = "redirect:noticeList";
+    } else {
+      path = "redirect:noticeErroe.jsp";
+    }
     logger.info(Integer.toString(result));
-    return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
+    return path;
     // return "redirect:noticeList.jsp";
   }
 

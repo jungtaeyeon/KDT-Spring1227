@@ -1,14 +1,12 @@
 package com.example.demo.dao;
 
 import java.util.List;
-import java.util.Map;
-import java.util.*;
+import java.util.Map;  
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 // XXXDao 클래스는 MVC패턴에 영향을 주는 클래스는 아니다. - 디자인 패턴? 으로 이해하자.
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +28,6 @@ public class NoticeDao { // 데이터 영속성을 처리하는 계층 - 퍼시�
     return list;
   }
 
-
   public int noticeInsert(Map<String, Object> pMap) {
     logger.info("NoticeDao -> noticeInsert()");
     int result = 0;
@@ -41,7 +38,7 @@ public class NoticeDao { // 데이터 영속성을 처리하는 계층 - 퍼시�
 
 
   public int noticeUpdate(Map<String, Object> pMap) {
-     logger.info("NoticeDao -> noticeUpdate()");
+    logger.info("NoticeDao -> noticeUpdate()");
     int result = 0;
     result = sqlSessionTemplate.update("noticeUpdate", pMap);
     logger.info(Integer.toString(result));

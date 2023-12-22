@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*" %>
 <%
 int size = 0;//전체 레코드 수
@@ -8,14 +9,14 @@ List<Map<String,Object>> nList = (List)request.getAttribute("nList");
 if(nList !=null){
 	size = nList.size();
 }
-out.print(size);
+<!-- out.print(size); -->
 %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>공지사항{webapp}</title>
+    <title>공지사항{INF}</title>
     <%@include file="/common/bootstrap_common.jsp" %>
 	<link rel="stylesheet" href="/css/notice.css">
     <script type="text/javascript">
@@ -63,6 +64,7 @@ out.print(size);
 		 	</div>
 		</div>		
 		<!-- 검색기 끝 -->
+
 
 		<!-- 회원목록 시작 -->
 		<div class='notice-list'>
