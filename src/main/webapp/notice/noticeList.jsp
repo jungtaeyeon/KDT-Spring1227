@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.*, com.util.BSPageBar" %>
 <%
 int size = 0;//전체 레코드 수
 List<Map<String,Object>> nList = (List)request.getAttribute("nList");
@@ -8,7 +8,13 @@ List<Map<String,Object>> nList = (List)request.getAttribute("nList");
 if(nList !=null){
 	size = nList.size();
 }
-out.print(size);
+// out.print(size);
+// 한 페이지에 몇개씩 뿌릴거야??
+    int numPerPage = 3;
+    int nowPage = 0;
+    if(request.getParameter("nowPage") != null) {
+    nowPage = Integer.parseInt(request.getParameter("nowPage"));
+	}
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -19,8 +25,14 @@ out.print(size);
     <%@include file="/common/bootstrap_common.jsp" %>
 	<link rel="stylesheet" href="/css/notice.css">
     <script type="text/javascript">
+			// 화면을 리액트로 사용해 보는 것 만으로 자바스크립트 복습 및 최신 문법을 공부할 수 있다.
+
     	function searchEnter(){
-    		console.log('searchEnter')
+    		console.log('searchEnter');
+				console.log(window.event.keyCode); // Enter -> 13
+				if(window.event.keyCode == 13){
+					noticeSearch();
+				}
     	}
 		
 		function noticeSearch(){
@@ -29,7 +41,8 @@ out.print(size);
 			const keyword = document.querySelector("#keyword").value;
 			console.log(`${gubun} , ${keyword}`);
 			location.href="/notice/noticeList?gubun="+gubun+"&keyword="+keyword;
-
+			document.querySelector("#gubun").value = "분류선택";
+    	document.querySelector("#keyword").value = "";
 		}
     
     </script>
@@ -76,7 +89,9 @@ out.print(size);
 		    	</thead>
 		    	<tbody>	      	
 <%
-	for(int i=0;i<size;i++){
+	// for(int i=0;i<size;i++){
+	for(int i=nowPage*numPerPage;i<(nowPage*numPerPage)+numPerPage;i++){
+		if(size == i) break;
 		Map<String,Object> rmap = nList.get(i);
 %>					
 					<tr>
@@ -92,12 +107,18 @@ out.print(size);
     
 <!-- [[ 페이징 처리  구간  ]] -->
 			<div style="display:flex; justify-content:center;">
-				<ul class="pagination">[1] [2] [3]</ul>
+				<ul class="pagination">
+				<%
+					String pagePath = "noticeList";
+					BSPageBar bspb = new BSPageBar(numPerPage, size, nowPage, pagePath);
+					out.print(bspb.getPageBar());
+				%>
+				</ul>
 			</div>
 <!-- [[ 페이징 처리  구간  ]] -->		
 	  
 		  	<div class='notice-footer'>
-		    	<button class="btn btn-warning" onclick="noticeList()">
+		    	<button class="btn btn-warning" onclick="noticeSearch()">
 		      		전체조회
 		    	</button>&nbsp; 
 			    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#noticeForm">

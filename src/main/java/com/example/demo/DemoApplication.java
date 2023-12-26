@@ -3,13 +3,22 @@ package com.example.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ApplicationContext;
+import java.util.Arrays;
 
 @ServletComponentScan  // 서블릿
 @SpringBootApplication
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		ApplicationContext ac = SpringApplication.run(DemoApplication.class, args);
+    // 등록된 빈의 목록
+    //String[] beanNames = ac.getBeanDefinitionNames();
+    //Arrays.sort(beanNames); // 정렬하기
+    // 배열 스트림으로 변환하여 목록 출력
+    //Arrays // 배열에 있는 정보를 그대로 출력할 수 없어 stream으로 변환시킴
+    //.stream(beanNames) // 스트림 변환
+    //.forEach(System.out::println); // 빈 목록 출력
 	}
 }
 

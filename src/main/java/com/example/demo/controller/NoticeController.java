@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.logic.NoticeLogic;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import java.util.*;
 
 // 스프링 에서는 URL매핑이 4번을 디폴트로 하고 있다.
@@ -39,17 +37,9 @@ public class NoticeController {
   // SELECT * FROM notice WHERE gubun=? AND keyword=?
   @GetMapping("noticeList")
   public String noticeList(@RequestParam Map<String, Object> pMap, Model model){ 
-    List<Map<String, Object>> list = null;
-    list = noticeLogic.noticeList(pMap); // 전체조회 및 조건검색
-    List<Map<String, Object>> list2 = new ArrayList<>();
-    Map<String, Object> map = new HashMap<>();
-    map.put("l_title", "제목1");
-    map.put("l_contetn", "내용1");
-    map.put("l_writer", "작성자1");
-    list2.add(map);
-    model.addAttribute("nList2", list2);
-    model.addAttribute("nList", list);
-    logger.info("nList2: {}", list2.get(0));
+    List<Map<String, Object>> nList = null;
+    nList = noticeLogic.noticeList(pMap); // 전체조회 및 조건검색
+    model.addAttribute("nList", nList);
     return "forward:noticeList.jsp"; // forward: 가 붙어있기 때문에 webapp폴더 아래에서 찾는다.
   } 
   
