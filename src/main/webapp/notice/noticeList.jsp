@@ -27,6 +27,10 @@ if(nList !=null){
     <script type="text/javascript">
 			// 화면을 리액트로 사용해 보는 것 만으로 자바스크립트 복습 및 최신 문법을 공부할 수 있다.
 
+			const noticeDetail = (n_no) => {
+				location.href="/notice/noticeDetail?n_no="+n_no;
+			}
+
     	function searchEnter(){
     		console.log('searchEnter');
 				console.log(window.event.keyCode); // Enter -> 13
@@ -96,7 +100,11 @@ if(nList !=null){
 %>					
 					<tr>
 						<td><%=rmap.get("N_NO") %></td>
-						<td><%=rmap.get("N_TITLE") %></td>
+						<td>
+							<a href="javascript:noticeDetail('<%=rmap.get("N_NO") %>')">
+								<%=rmap.get("N_TITLE") %>
+							</a>
+						</td>
 						<td><%=rmap.get("N_WRITER") %></td>
 					</tr>					
 <%

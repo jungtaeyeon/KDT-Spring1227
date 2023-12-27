@@ -37,7 +37,7 @@ public class RestNoticeController {
     list = noticeLogic.noticeList(pMap); // 조건검색
     Gson g = new Gson();
     String temp = g.toJson(list);
-    return temp; // forward: 가 붙어있기 때문에 webapp폴더 아래에서 찾는다.
+    return temp; 
   }
 
   @PostMapping("noticeInsert2")
@@ -47,5 +47,26 @@ public class RestNoticeController {
     int result = 0;
     result = noticeLogic.noticeInsert(pMap);
     return String.valueOf(result); // -> 성공 여부만 나타내는 result만 리턴. 성공: 1, 실패: 0 
+  }
+
+  // @Controller를 사용할때 와는 다르게(화면이 아니라) JSON 형식의 데이터셋으로 내보내야 할 때
+  // 꼭 React뿐 아니라 다른 솔루션 이더라도 데이터셋을 json으로 사용하고 있다면 모두에 적용이 가능한 공통코드 이다.
+  // @GetMapping("jsonNoticeDetail")
+  // public String jsonNoticeDetail(@RequestBody Map<String, Object> pMap){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
+  //   logger.info("jsonNoticeDetail");
+  //   List<Map<String, Object>> nList = null;
+  //   nList = noticeLogic.noticeList(pMap);
+  //   Gson g = new Gson();
+  //   String temp = g.toJson(nList);
+  //   return temp;
+  // }
+  @GetMapping("jsonNoticeDetail")
+   public String jsonNoticeDetail(@RequestParam Map<String, Object> pMap){ 
+    logger.info(pMap.toString());
+    List<Map<String, Object>> list = null;
+    list = noticeLogic.noticeList(pMap); // 조건검색
+    Gson g = new Gson();
+    String temp = g.toJson(list);
+    return temp; 
   }
 }

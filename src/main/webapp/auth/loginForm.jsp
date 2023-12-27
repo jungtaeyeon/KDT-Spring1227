@@ -15,24 +15,45 @@
 	<!-- body start    -->
 	<div class="container">
 	
-		<form id="f_login" action="/auth2/login.pj3" method="post">
+		<form id="f_login" action="/auth/login" method="post" onsubmit="return formCheck(this)">
+			<h3>로그인</h3>
+			<div class="msg">에러 메시지 자리 ${param.msg}</div>
 			<div class="mb-3 mt-3">
 				<label for="mem_email" class="form-label">Email:</label> <input
-					type="text" class="form-control" id="mem_email"
-					placeholder="Enter Email" name="mem_email">
+					type="text" value="kiwi@hot.com" class="form-control" id="mem_email"
+					placeholder="Enter Email" name="mem_email" autofocus>
 			</div>
 			<div class="mb-3">
 				<label for="pwd" class="form-label">Password:</label> <input
 					type="password" class="form-control" id="mem_pw"
 					placeholder="Enter password" name="mem_pw">
 			</div>
-			<button type="button" id="btn-login" class="btn btn-primary">로그인</button>
+
+			<div>
+				<label for="remember">기억하기</label> <input
+					type="checkbox" id="remember" name="remember" checked>
+			</div>
+			
+			<button type="submit" id="btn-login" class="btn btn-primary">로그인</button>
 			<script>
-				const btnLogin = document.querySelector("#btn-login")
-				btnLogin.addEventListener('click', (e) => {
-					//alert('11');
-					document.querySelector("#f_login").submit();
-				})
+				const formCheck = (f_login) => {
+					let msg = '';
+					if(f_login.mem_email.value.length == 0){
+						msgShow('이메일을 입력하세요.', f_login.mem_email)
+						return false;
+					}
+					if(f_login.mem_pw2.value.length == 0){
+						msgShow('비밀번호를 입력하세요.', f_login.mem_pw2)
+						return false;
+					}
+					return true;
+				}
+				const msgShow = (msg, element) => {
+					document.querySelector(".msg").innerHTML=msg;
+					if (element) {
+						element.select();
+					}
+				}
 			</script>			
 			<a href="https://kauth.kakao.com/oauth/authorize?client_id=dab7a2fa14e99d854cd5a5757db20c79&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code">
         <img src="/images/ko/kakao_login_medium_narrow.png" alt="카카오로그인">

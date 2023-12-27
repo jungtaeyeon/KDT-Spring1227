@@ -42,6 +42,23 @@ public class NoticeController {
     model.addAttribute("nList", nList);
     return "forward:noticeList.jsp"; // forward: 가 붙어있기 때문에 webapp폴더 아래에서 찾는다.
   } 
+  // DB설계 시 - 화면에 보이지 않는 컬럼이 추가되었는지 꼭 확인해 보세요.
+  // XXXVO.java수정해야함. XXX.xml문서의 컬럼명을 추가해야 한다.
+  // 화면에 드러나지 않는 컬럼은 거의 개발자에게만 필요한 정보이다.
+
+  // 공지사항 게시판 테이블 설계에 조회수가 포함되어 있다면??
+  // 그래서 1건 조회가 발생할 때 마다 조회수를 1씩 증가시켜야 하는 프로세스를 추가해야 한다면
+  // 그 말은 NoticeLogic쿨래스에 상세보기를 하는 메소드에서 한 번은 select를 또 한 번은
+  // 조회수를 update해야 한다면?? (update notice set n_hit+1 where n_no=3)
+  // 만일 별도의 UI솔루션을 사용하고 있다면 추가 클래스 설계가 필요하다. - RestNoticeController.java
+  @GetMapping("noticeDetail")
+  public String noticeDetail(@RequestParam Map<String, Object> pMap, Model model){ 
+    logger.info("noticeDetail");
+    List<Map<String, Object>> nList = null;
+    nList = noticeLogic.noticeList(pMap); // 전체조회 및 조건검색
+    model.addAttribute("nList", nList);
+    return "forward:noticeDetail.jsp"; // forward: 가 붙어있기 때문에 webapp폴더 아래에서 찾는다.
+  } 
   
   // insert into notice(n_no, n_title, n_content, n_writer) valuse(?,?,?,?)
   @PostMapping("noticeInsert")
