@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mybatis.mapper.MemberMapper">
+	<select id="curruntTime" parameterType="string" resultType="string">
+		SELECT to_char(sysdate, 'YYYY-MM-DD') ctime FROM dual
+	</select>
+	<select id="memberList" parameterType="map" resultType="string">
+		SELECT MEM_NO, MEM_ID, MEM_EMAIL, MEM_PW 
+						, MEM_NAME, ZIPCODE, ADDRESS, GUBUN, MEM_PICTURE
+			FROM MEMBER231228
+	</select>
+	<!-- 
+		useGenerateKeys="true" 를 주는 이유 -> 다른 테이블에 같은 키값을 줘야 할 때
+		parameterType="map" 으로 주어야 하며
+		map에 seq_member231228_no.nextval로 채번된 값이 담기며 그 키값은 keyColumn="mem_no" 이다.
+		다른 테이블에서 꺼낼때는 get(mem_no)
+	-->
+	<insert id="memberInsert" useGeneratedKeys="true" parameterType="map" keyColumn="mem_no" keyProperty="mem_no">
+		INSERT INTO MEMBER231228(MEM_NO, MEM_ID, MEM_EMAIL, MEM_PW 
+						, MEM_NAME, ZIPCODE, ADDRESS, GUBUN, MEM_PICTURE)
+    VALUES(seq_member231228_no.nextval, #{mem_id, jdbcType=VARCHAR}, #{mem_email, jdbcType=VARCHAR}
+					, #{mem_pw, jdbcType=VARCHAR}, #{mem_name, jdbcType=VARCHAR}, #{zipcode, jdbcType=VARCHAR}
+					, #{address, jdbcType=VARCHAR}, #{gubun, jdbcType=VARCHAR}, #{MEM_PICTURE, jdbcType=VARCHAR})
+	</insert>
+	<update id="memberUpdate" parameterType="map">
+	UPDATE MEMBER231228
+ 		SET gubun = 0
+		<if test='mem_pw!=null and mem_pw.length > 0'>
+				, mem_pw = ${mem_pw, jdbcType=VARCHAR}
+		</if>
+		<if test='mem_name!=null and mem_name.length > 0'>
+ 				, mem_name = ${mem_name, jdbcType=VARCHAR}
+		</if>
+		<if test='zipcode!=null and zipcode.length > 0'>
+ 				, ZIPCODE = ${zipcode}
+		</if>
+		<if test='address!=null and address.length > 0'>
+ 				, address = ${address}
+		</if>
+		<if test='mem_email!=null and mem_email.length > 0'>
+ 				, mem_email = ${mem_email}
+		</if>
+		<if test='mem_no!=null and mem_no.length > 0'>
+ 				WHERE mem_no = ${mem_no}
+		</if>
+
+	</update>
+	<!--
+        xml주석은 html주석과 같다
+        회원등록시 사진을 세장 추가할 수 있다
+        public int fileInsert(List<Map<String,Object>> picList)
+     
+-->
+<insert id="fileInsert" parameterType="java.util.List">
+INSERT ALL
+<foreach collection="list" item="item" index="index" separator=" ">
+INTO common_file(file_no, file_name, file_size) VALUES (#{item.file_no}, #{item.file_name}, #{item.file_size})
+</foreach>
+SELECT * FROM DUAL
+</insert>
+</mapper>

@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%
+  //String s_nickname = (String)session.getAttribute("nickname");
+  // 로그인을 하지 않았다면 null이 출력
+  //out.print(s_nickname); // 로그인을 했다면 카카오 계정에 등록된 이름이 출력된다.
+  %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>

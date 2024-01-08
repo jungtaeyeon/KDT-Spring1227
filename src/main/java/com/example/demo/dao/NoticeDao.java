@@ -46,9 +46,9 @@ public class NoticeDao { // 데이터 영속성을 처리하는 계층 - 퍼시�
   }
 
 
-  public int noticeDelete(Map<String, Object> pMap) {
+  public int noticeDelete(int n_no) {
     int result = 0;
-    result = sqlSessionTemplate.delete("noticeDelete", pMap);
+    result = sqlSessionTemplate.delete("noticeDelete", n_no);
     logger.info(Integer.toString(result));
     return result;
   }

@@ -45,10 +45,10 @@ public class NoticeLogic {
     return result;
   }
 
-  public int noticeDelete(Map<String, Object> pMap) {
+  public int noticeDelete(int n_no) {
     logger.info("NoticeLogic -> noticeDelete()");
     int result = 0;
-    result = noticeDao.noticeDelete(pMap);
+    result = noticeDao.noticeDelete(n_no);
     return result;
   }
   

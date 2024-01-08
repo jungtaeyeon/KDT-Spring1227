@@ -81,19 +81,31 @@ public class NoticeController {
     logger.info("noticeUpdate 호출");
     logger.info(pMap.get("n_title").toString()+", "+pMap.get("n_content").toString()+", "+pMap.get("n_writer").toString());
     int result = 0;
+    String path = null;
     result = noticeLogic.noticeUpdate(pMap);
+    if (result == 1) {
+      path = "redirect:noticeList";
+    } else {
+      path = "redirect:noticeError.jsp";
+    }
     logger.info(Integer.toString(result));
-    return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
-    // return "redirect:noticeList.jsp"; 
+    return path; 
+    // return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
   }
   
   @GetMapping("noticeDelete")
-  public String noticeDelete(@RequestParam Map<String, Object> pMap){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
+  public String noticeDelete(int n_no){ // 파라미터에 n_no, n_title, n_content, n_writer 이런식으로 모두 선언하기 보다는.. Map
     logger.info("noticeDelete 호출");
     int result = 0;
-    result = noticeLogic.noticeDelete(pMap);
+    String path = null;
+    result = noticeLogic.noticeDelete(n_no);
+    if (result == 1) {
+      path = "redirect:noticeList";
+    } else {
+      path = "redirect:noticeError.jsp";
+    }
     logger.info(Integer.toString(result));
-    return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
-    // return "redirect:noticeList.jsp";
+    return path; 
+    // return "redirect:noticeList"; // 이렇게 하면 화면을 호출하는게 아니라 URL을 호출하는 것 -> 그럼 noticeList() 메소드가 호출!
   }
 }

@@ -21,13 +21,15 @@
 <link rel="stylesheet" href="/css/notice.css">
 <script type="text/javascript">
 	const noticeDelete = () => {
-	
+		// 자바 스크립트 영역이다.
+		location.href = "/notice/noticeDelete?n_no="+<%=rmap.get("N_NO")%>;
+		// location.href = "/notice/noticeDelete?n_no="+<%=rmap.get("N_NO")%>;
 	}
 	const noticeList = () => {
-
+		location.href = "/notice/noticeList"
 	}
 	const noticeUpdate = () => {
-
+		document.querySelector("#f_notice").submit();
 	}	
 </script>
 </head>
@@ -141,3 +143,14 @@
 	
 </body>
 </html>
+<!-- 
+	QnA게시판, 자유게시판, 공지사항 게시판.... 성격, 목적, 구조, 테이블구조, QnAVO.java, BoardVO.java, NoticeVO.java
+	삭제처리
+	비번이 있어서 비교해야 하는 경우
+	비번이 없는 경우 페이지의 흐름도가 다르다
+	ERD를 확인할 것 - JPA(Hibernate-클래스 설계)
+	테이블을 클래스 설계로 바꿀 수 있는가??
+	jsp{noticeDetail.jsp} -> action(delete(int n_no): int) -> action(select-n건 n_no=null)목록조회 jsp
+	jsp -> action(select - 1건만) -> jsp
+	action(select-1건) - jsp(notice)
+ -->

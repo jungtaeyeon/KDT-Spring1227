@@ -14,8 +14,8 @@
 		          ,  n_writer = #{n_writer}
 		  where n_no = #{n_no}
 	</update>
-	<delete id="noticeDelete" parameterType="map">
-		delete from notice where n_no = #{n_no}  	
+	<delete id="noticeDelete" parameterType="int">
+		delete from notice where n_no = #{value}
 	</delete>
 	<select id="noticeList" parameterType="map"  resultType = "map">
 		select n_no, n_title, n_content, n_writer from notice

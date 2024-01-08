@@ -1,12 +1,18 @@
 <%@ page language="java"	contentType="text/html;charset=UTF-8"	pageEncoding="UTF-8"%>
 <%
   // 스크립틀릿
+  // 같은 폴더에 있는 문서 끼리만 공유된다.
   Cookie c_name = new Cookie("ename","smith");
   c_name.setMaxAge(60*30); // 60초 동안
+
+  // 패스를 지정했을 경우에 다른 도메인 패스 모두 공유 불가능 하다.
+  // 패스의 아래는 공유 가능함
+  // c_name.setPath("/aaaa");
 
   Cookie c_name2 = new Cookie("ename2","scott");
   c_name2.setMaxAge(60*30); // 60초 동안
 
+  // 생성 후에는 반드시 클라이언트 측으로 내린다.
   response.addCookie(c_name); // 쿠키를 클라이언트에 내려줌
   response.addCookie(c_name2); // 쿠키를 클라이언트에 내려줌
 %>

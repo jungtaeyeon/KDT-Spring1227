@@ -1,7 +1,9 @@
 <%@ page language="java"	contentType="text/html;charset=UTF-8"	pageEncoding="UTF-8"%>
 <%
+// 쿠키를 읽어올 때는 requset객체를 사용함 - 로컬PC관리됨
   Cookie[] cs = request.getCookies();
   for(int i=0; i<cs.length; i++){
+    // 단 같은 이름이면 덮어짐
     if("ename".equals(cs[i].getName())){ // 쿠키의 이름을 가져오는 메소드 .getName
       out.println(cs[i].getValue());
     };

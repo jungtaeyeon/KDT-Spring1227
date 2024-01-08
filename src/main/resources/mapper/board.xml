@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mybatis.mapper.BoardMapper">
+	<insert id="boardInsert" parameterType="java.util.Map">
+		insert into  board230527(b_no, b_title, b_content, b_writer, b_hit, b_date)
+		values(seq_board230527.nextval, #{b_title}, #{b_content}, #{b_writer}, 0, to_char(sysdate,'YYYY-MM-DD'))
+	</insert>
+	<update id="boardUpdate" parameterType="map">
+		update board230527
+		      set b_title = #{b_title}
+		          ,  b_content = #{b_content}
+		          ,  b_writer = #{b_writer}
+		  where b_no = #{b_no}
+	</update>
+	<delete id="boardDelete" parameterType="map">
+		DELETE FROM BOARD230527
+			WHERE b_no=#{b_no}
+	</delete>
+	<select id="boardList" parameterType="map"  resultType = "map">
+		select b_no, b_title, b_content, b_writer, b_file, b_hit from board230527
+		<where>
+			<if test="b_no!=null">AND b_no=#{b_no}</if>
+			<if test="gubun!=null">
+				<choose>
+					<when test='gubun.equals("b_title")'>
+						AND b_title LIKE '%'||#{keyword}||'%'
+					</when>
+					<when test='gubun.equals("b_content")'>
+						AND b_content LIKE '%'||#{keyword}||'%'
+					</when>
+					<when test='gubun.equals("b_writer")'>
+						AND b_writer LIKE '%'||#{keyword}||'%'
+					</when>
+				</choose>
+			</if>
+		</where>
+		order by b_no desc
+	</select> 
+	<!-- ======================== [[ 댓글 관련 쿼리 ]] ======================== -->
+	<select id="commentList" parameterType="map" resultType="map">
+	SELECT
+			BC_NO, BC_WRITER, BC_COMMENT
+		FROM BOARD230527_COMMENT NATURAL JOIN BOARD230527  
+	WHERE B_NO = #{b_no}
+	ORDER BY BC_NO desc
+	</select>
+	<!-- ======================== [[ 댓글 관련 쿼리 ]] ======================== -->
+
+	<!-- ======================== [[ 조회수 관련 쿼리 ]] ======================== -->
+	<update id="hitCount" parameterType="map">
+		UPDATE BOARD230527
+			SET B_HIT = B_HIT +1
+		WHERE B_NO = #{b_no}
+	</update>
+	<!-- ======================== [[ 조회수 관련 쿼리 ]] ======================== -->
+
+	<!-- ======================== [[ 댓글 입력 관련 쿼리 ]] ======================== -->
+	<insert id="commentInsert" parameterType="map">
+	INSERT INTO BOARD230527_COMMENT(BC_NO, BC_WRITER, BC_COMMENT, BC_DATE, B_NO)
+	values(seq_board_commentno.nextval, #{bc_writer}, #{bc_comment}
+			, to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'), #{b_no})
+	</insert>
+	<!-- ======================== [[ 댓글 입력 관련 쿼리 ]] ======================== -->
+
+	<!-- ======================== [[ 댓글 삭제 관련 쿼리 ]] ======================== -->
+	<delete id="commentDelete" parameterType="map">
+	DELETE FROM BOARD230527_COMMENT WHERE BC_NO = #{bc_no}
+	</delete>
+	<!-- ======================== [[ 댓글 입력 관련 쿼리 ]] ======================== -->
+</mapper>

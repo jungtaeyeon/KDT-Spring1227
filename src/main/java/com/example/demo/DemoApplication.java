@@ -4,15 +4,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ApplicationContext;
-import java.util.Arrays;
 
 @ServletComponentScan  // 서블릿
-@SpringBootApplication
+@SpringBootApplication // @Configuration + @EnableAutoConfiguration + @ComponentScan
 public class DemoApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext ac = SpringApplication.run(DemoApplication.class, args);
-    // 등록된 빈의 목록
+    // 등록된 빈의 목록 -> 미리 로딩되어 있는 객체 목록을 확인해 보는 코드  - 로그 확인 시 불편해서 주석
     //String[] beanNames = ac.getBeanDefinitionNames();
     //Arrays.sort(beanNames); // 정렬하기
     // 배열 스트림으로 변환하여 목록 출력

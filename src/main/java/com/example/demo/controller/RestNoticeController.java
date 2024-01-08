@@ -16,6 +16,13 @@ import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+// 마임타입 - text/plain 경우와 또는 application/json인 경우 사용한다.
+// Front-End와 Back-End 완전히 분리하는 클래스 설계/아키텍쳐 설계
+// @RestController 필요성 공감
+// Back-End가 무엇을 제공하는가?? - 데이터셋(DataSet)-데이터집합 -> Json포맷을 포함하고 있다.
+// [{키: 벨류}] -> []: Array, List계열이다 -> 한 개의 로우 -> 여러가지의 컬럼이 존재할 수 있따. -> 제네릭
+// {} -> VO, Map 계열
+//
 @RestController // 화면없이 조회 결과를 문자열 포맷으로 처리할 때 사용 -> @ResponseBody대체로 제공됨
 @RequestMapping("/notice/*")
 public class RestNoticeController {
@@ -25,6 +32,12 @@ public class RestNoticeController {
 
   // get방식으로 사용자가 입력한 값을 받을 땐 - @RequestParam을 사용함
   // post방식으로 받을 땐 - @RequestBody사용함 - 리액트
+  // 컨트롤 계층의 리턴타입에는 String이다.
+  // redirect: ./XXXX.jsp, redirect: ./XXXX  -> 또 다른 메소드를 호출하는 것
+  // forward: ./XXX.jsp(select일 때)
+  // 주의: 메소드 안에서 forward방식으로 다른 메소드 호출하는 것 -> 불가능
+  // redirect -> foward는 가능함 그러나 forward -> forward는 불가능 함
+  // Model은 사용할 필요가 없다. -> 왜냐면 직접 문자열(text/plain)로 반환하거나 JSON(application/json)로 반환함
   @GetMapping("jsonNoticeList")
    public String jsonNoticeList(@RequestParam Map<String, Object> pMap, HttpServletRequest req){ 
     // logger.info(pMap.get("gubun").toString()+", "+ pMap.get("keyword").toString());
@@ -35,8 +48,9 @@ public class RestNoticeController {
     List<Map<String, Object>> list = null;
     // list = noticeLogic.noticeList(); // 전체조회
     list = noticeLogic.noticeList(pMap); // 조건검색
-    Gson g = new Gson();
-    String temp = g.toJson(list);
+    // List, Map -> JSON으로 변경하기, JSON -> List, Map, JSON -> Array
+    Gson g = new Gson(); // 오픈소스API(해커뉴스, 유튜브. 날씨 API) - JSON
+    String temp = g.toJson(list); // 파라미터로 받은 List<Map<>>형태를 JSON형식으로 전환해줌
     return temp; 
   }
 

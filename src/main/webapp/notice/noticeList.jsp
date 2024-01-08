@@ -31,6 +31,14 @@ if(nList !=null){
 				location.href="/notice/noticeDetail?n_no="+n_no;
 			}
 
+			const noticeInsert = () => {
+				// input type의 button은 sunmit(전송)이 아니다. -> 어디로 가나?? -> action의 url로 이동한다.
+				// 웹 서비스 에서의 url요청은 noticeController의 메소드 호출을 의미하는 것 이다.
+				// @GetMapping, PostMapping Restfull API - 컨트롤계층에만 국한됨
+				document.querySelector("#f_notice").submit();
+
+			}
+
     	function searchEnter(){
     		console.log('searchEnter');
 				console.log(window.event.keyCode); // Enter -> 13
@@ -152,9 +160,13 @@ if(nList !=null){
 	      </div>
 	      <!-- Modal body -->
 	      <div class="modal-body">
-	      	<form id="f_notice" method="get" action="./noticeInsert.pj1">
+	      	<form id="f_notice" method="post" action="./noticeInsert">
 	      	  <input type="hidden" name="method" value="memberInsert">
 	          <div class="form-floating mb-3 mt-3">
+							<!-- getParameter에 들어오는 값은 name만 가능함, id는 불가함 -> 왜냐면 값을 못 가져오니까. -->
+							<!-- id와 name이 같아도 되나?? 그렇다. id:Front-End, name:Back-End -->
+							<!-- 개발 설계 - 화면정의서 업무 분장: 모달인가 모달이 아닌가 -->
+							<!-- 모달에서 사용하는 id가 목록에서 동시에 사용은 불가능 하다. -->
 	            <input type="text"  class="form-control" id="n_title" name="n_title" placeholder="Enter 제목" />
 	            <label for="n_title">제목</label>
 	          </div>	      	
